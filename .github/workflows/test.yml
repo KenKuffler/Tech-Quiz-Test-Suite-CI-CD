@@ -1,4 +1,4 @@
-name: Run Cypress Component Tests
+name: Cypress Component Tests
 
 on:
   push:
