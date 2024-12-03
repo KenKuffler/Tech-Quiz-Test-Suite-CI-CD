@@ -1,4 +1,4 @@
-name: Run Cypress Tests
+name: Run Cypress Component Tests
 
 on:
   pull_request:
@@ -6,39 +6,26 @@ on:
       - develop
 
 jobs:
-  cypress-tests:
+  cypress-component-tests:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # Step 3: Install dependencies
       - name: Install dependencies
-        run: |
-          cd client
-          npm install
-          cd ../server
-          npm install
+        run: npm install
 
-      - name: Start Backend Service
-        run: |
-          cd server
-          npm start &
-          sleep 10 # Wait for backend to start
+      # Step 4: Run Cypress Component Tests
+      - name: Run Cypress Component Tests
+        run: npm run test-component
 
-      - name: Start Frontend Service
-        run: |
-          cd client
-          npm run dev &
-          sleep 10 # Wait for frontend to start
-
-      - name: Run Cypress Tests
-        run: |
-          cd client
-          npm run test
 
