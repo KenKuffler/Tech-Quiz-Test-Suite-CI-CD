@@ -1,4 +1,4 @@
-name: Debug Workflow
+name: Run Cypress Component Tests
 
 on:
   push:
@@ -6,7 +6,12 @@ on:
       - production
 
 jobs:
-  debug:
+  cypress-component-tests:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "Workflow triggered"
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Debug Command
+        run: echo "Test workflow triggered successfully"
