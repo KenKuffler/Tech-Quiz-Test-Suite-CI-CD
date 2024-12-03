@@ -21,6 +21,22 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Seed Backend Data
+        run: |
+          cd server
+          npm run seed
+
+      - name: Start Backend Service
+        run: |
+          cd server
+          npm start &
+          sleep 10 # Wait for backend to initialize
+
+      - name: Start Frontend Service
+        run: |
+          cd client
+          npm run dev &
+          sleep 10 # Wait for frontend to initialize
+
       - name: Run Cypress Component Tests
         run: npm run test-component
-
