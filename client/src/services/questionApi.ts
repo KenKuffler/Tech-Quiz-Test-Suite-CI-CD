@@ -1,7 +1,7 @@
 import type { Question } from '../models/Question.js';
 
-// Backend API base URL from environment variable
-const apiUrl = import.meta.env.VITE_API_URL;
+// Backend API base URL from environment variable or default to local
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 export const getQuestions = async (): Promise<Question[]> => {
   try {
@@ -16,4 +16,5 @@ export const getQuestions = async (): Promise<Question[]> => {
     throw error;
   }
 };
+
 

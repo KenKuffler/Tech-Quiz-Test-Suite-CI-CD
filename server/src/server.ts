@@ -3,14 +3,14 @@ import db from './config/connection.js';
 import routes from './routes/index.js';
 import cors from 'cors';
 
-// Configure CORS
-const corsOptions = {
-  origin: 'https://tech-quiz-test-suite-ci-cd-1.onrender.com', // Replace with your actual frontend URL
-  optionsSuccessStatus: 200,
-};
-
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Determine CORS origin dynamically
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Default to local frontend during local testing
+  optionsSuccessStatus: 200,
+};
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

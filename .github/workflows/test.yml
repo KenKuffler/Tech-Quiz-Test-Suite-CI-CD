@@ -1,4 +1,4 @@
-name: Run Cypress Component Tests
+name: Run Cypress Tests
 
 on:
   push:
@@ -6,44 +6,52 @@ on:
       - production
 
 jobs:
-  cypress-component-tests:
+  cypress-tests:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm install
-
-      - name: Build Backend
         run: |
-          cd server
-          npm run build
+          cd client
+          npm install
+          cd ../server
+          npm install
 
-      - name: Seed Backend Data
+      # Step 4: Set Local Environment Variables
+      - name: Set Local Environment Variables
         run: |
-          cd server
-          npm run seed
-        env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          echo "VITE_API_URL=http://localhost:3001/api" >> $GITHUB_ENV
+          echo "FRONTEND_URL=http://localhost:5173" >> $GITHUB_ENV
 
+      # Step 5: Start Backend Service
       - name: Start Backend Service
         run: |
           cd server
           npm start &
           sleep 10 # Wait for backend to initialize
 
+      # Step 6: Start Frontend Service
       - name: Start Frontend Service
         run: |
           cd client
           npm run dev &
           sleep 10 # Wait for frontend to initialize
 
-      - name: Run Cypress Component Tests
-        run: npm run test-component
+      # Step 7: Run Cypress Tests
+      - name: Run Cypress Tests
+        run: |
+          cd client
+          npm run test-component
+
+
