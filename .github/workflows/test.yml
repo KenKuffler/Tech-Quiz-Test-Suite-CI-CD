@@ -4,54 +4,67 @@ on:
   push:
     branches:
       - production
+  pull_request:
+    branches:
+      - production
 
 jobs:
   cypress-tests:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Setup Node.js
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: |
-          cd client
-          npm install
-          cd ../server
-          npm install
-
-      # Step 4: Set Local Environment Variables
+      # Set Local Environment Variables
       - name: Set Local Environment Variables
         run: |
           echo "VITE_API_URL=http://localhost:3001/api" >> $GITHUB_ENV
           echo "FRONTEND_URL=http://localhost:5173" >> $GITHUB_ENV
 
-      # Step 5: Start Backend Service
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          cd client && npm install
+          cd ../server && npm install
+
+      # Build Backend and Frontend
+      - name: Build Backend and Frontend
+        run: |
+          cd server && npm run build
+          cd ../client && npm run build
+
+      # Seed the Database
+      - name: Seed the Database
+        run: |
+          cd server && npm run seed
+
+      # Start Backend Service
       - name: Start Backend Service
         run: |
           cd server
           npm start &
           sleep 10 # Wait for backend to initialize
 
-      # Step 6: Start Frontend Service
+      # Start Frontend Service
       - name: Start Frontend Service
         run: |
           cd client
           npm run dev &
           sleep 10 # Wait for frontend to initialize
 
-      # Step 7: Run Cypress Tests
+      # Run Cypress Tests
       - name: Run Cypress Tests
         run: |
           cd client
           npm run test-component
+
 
 
