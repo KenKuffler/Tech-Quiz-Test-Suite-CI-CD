@@ -20,3 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Run Cypress Component Tests
+        run: npm run test-component
+
