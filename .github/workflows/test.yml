@@ -1,4 +1,3 @@
-# .github/workflows/test.yml
 name: Run Cypress Tests
 
 on:
@@ -26,15 +25,20 @@ jobs:
           cd ../server
           npm install
 
-      - name: Start services
+      - name: Start Backend Service
         run: |
           cd server
           npm start &
-          cd ../client
+          sleep 10 # Wait for backend to start
+
+      - name: Start Frontend Service
+        run: |
+          cd client
           npm run dev &
-        shell: bash
+          sleep 10 # Wait for frontend to start
 
       - name: Run Cypress Tests
         run: |
           cd client
           npm run test
+
