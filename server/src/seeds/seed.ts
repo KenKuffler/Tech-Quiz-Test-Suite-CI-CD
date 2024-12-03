@@ -6,7 +6,7 @@ import cleanDB from "./cleanDb.js";
 
 // Load JSON data using fs
 const pythonQuestions = JSON.parse(
-  fs.readFileSync(path.resolve('server/src/seeds/pythonQuestions.json'), 'utf-8')
+  fs.readFileSync(path.resolve(__dirname, './pythonQuestions.json'), 'utf-8')
 );
 
 db.once('open', async () => {
@@ -20,4 +20,5 @@ db.once('open', async () => {
     process.exit(0);
   }
 });
+
 
