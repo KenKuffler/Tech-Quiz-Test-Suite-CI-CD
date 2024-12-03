@@ -1,5 +1,4 @@
 import express from 'express';
-// import path from 'node:path';
 import db from './config/connection.js';
 import routes from './routes/index.js';
 import cors from 'cors';
@@ -17,11 +16,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors(corsOptions));
 
-// Serves static files in the entire client's dist folder
-app.use(express.static('../client/dist'));
-
+// API Routes
 app.use(routes);
+
+// Handle invalid routes
+app.use((_req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
 
 db.once('open', () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
 });
+
