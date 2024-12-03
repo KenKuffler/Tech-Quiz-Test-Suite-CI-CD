@@ -5,7 +5,7 @@ import cors from 'cors';
 
 // Configure CORS
 const corsOptions = {
-  origin: 'https://your-frontend-url.onrender.com', // Replace with your actual frontend URL
+  origin: 'https://tech-quiz-test-suite-ci-cd-1.onrender.com', // Replace with your actual frontend URL
   optionsSuccessStatus: 200,
 };
 
