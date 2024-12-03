@@ -1,14 +1,23 @@
+import fs from 'fs';
+import path from 'path';
 import db from "../config/connection.js";
 import Question from "../models/Question.js";
 import cleanDB from "./cleanDb.js";
 
-import pythonQuestions from './pythonQuestions.json' assert { type: "json" };
+// Load JSON data using fs
+const pythonQuestions = JSON.parse(
+  fs.readFileSync(path.resolve('server/src/seeds/pythonQuestions.json'), 'utf-8')
+);
 
 db.once('open', async () => {
-  await cleanDB('Question', 'questions');
-
-  await Question.insertMany(pythonQuestions);
-
-  console.log('Questions seeded!');
-  process.exit(0);
+  try {
+    await cleanDB('Question', 'questions');
+    await Question.insertMany(pythonQuestions);
+    console.log('Questions seeded!');
+  } catch (error) {
+    console.error('Failed to seed database:', error);
+  } finally {
+    process.exit(0);
+  }
 });
+
