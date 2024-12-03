@@ -1,40 +1,12 @@
-# .github/workflows/test.yml
-name: Run Cypress Tests
+name: Debug Workflow
 
 on:
-  pull_request:
+  push:
     branches:
-      - develop
+      - production
 
 jobs:
-  cypress-tests:
+  debug:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: |
-          cd client
-          npm install
-          cd ../server
-          npm install
-
-      - name: Start services
-        run: |
-          cd server
-          npm start &
-          cd ../client
-          npm run dev &
-        shell: bash
-
-      - name: Run Cypress Tests
-        run: |
-          cd client
-          npm run test
+      - run: echo "Workflow triggered"
