@@ -30,6 +30,8 @@ jobs:
         run: |
           cd server
           npm run seed
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
       - name: Start Backend Service
         run: |
