@@ -10,16 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Trigger Backend Deploy Hook
+      # Deploy Backend
       - name: Deploy Backend
         if: env.RENDER_BACKEND_DEPLOY_HOOK != ''
         run: curl -X POST "$RENDER_BACKEND_DEPLOY_HOOK"
         env:
           RENDER_BACKEND_DEPLOY_HOOK: ${{ secrets.RENDER_BACKEND_DEPLOY_HOOK }}
 
-      # Trigger Frontend Deploy Hook
+      # Deploy Frontend
       - name: Deploy Frontend
         if: env.RENDER_FRONTEND_DEPLOY_HOOK != ''
         run: curl -X POST "$RENDER_FRONTEND_DEPLOY_HOOK"
         env:
           RENDER_FRONTEND_DEPLOY_HOOK: ${{ secrets.RENDER_FRONTEND_DEPLOY_HOOK }}
+
