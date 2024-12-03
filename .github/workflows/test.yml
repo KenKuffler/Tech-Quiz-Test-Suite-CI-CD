@@ -21,6 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build Backend
+        run: |
+          cd server
+          npm run build
+
       - name: Seed Backend Data
         run: |
           cd server
